@@ -1,5 +1,3 @@
-using System.Net;
-using System.Runtime.Intrinsics.Arm;
 using System.Security.Cryptography;
 using System.Text;
 using IST.Services.Interfaces;
@@ -11,17 +9,24 @@ namespace IST.API.Controllers;
 [Route("[controller]/[action]")]
 public class ReleaseX : ControllerBase
 {
-    private IConfiguration _AppSettings;
+    // ReSharper disable once InconsistentNaming
+    private readonly IConfiguration _AppSettings;
 
     public ReleaseX(IConfiguration appSettings)
     {
         _AppSettings = appSettings;
     }
+
     [HttpPost("/fag")]
-    public async Task<IActionResult> GetFagFromSchool([FromServices] IFagService service, int limit, int offset, int instnr, string apiKey)
+    public async Task<IActionResult> GetFagFromSchool([FromServices] IFagService service, int limit, int offset,
+        int instnr, string apiKey)
     {
-        var byteArray = SHA1.HashData(Encoding.UTF8.GetBytes(apiKey));
-        var hexString = Convert.ToHexString(byteArray);
+        var hexString = "";
+        await Task.Run(() =>
+        {
+            var byteArray = SHA1.HashData(Encoding.UTF8.GetBytes(apiKey));
+            hexString = Convert.ToHexString(byteArray);
+        });
 
         if (hexString != _AppSettings["apiKey"])
             return Unauthorized("Wrong API key");
@@ -33,7 +38,7 @@ public class ReleaseX : ControllerBase
             var result = service.GetFagFromSchool(limit, offset, instnr);
             return Ok(result.ToArray());
         }
-        else
-            return BadRequest();
+
+        return BadRequest();
     }
 }

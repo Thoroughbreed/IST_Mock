@@ -1,6 +1,5 @@
 using IST.Services.Interfaces;
 using IST.Services.Services;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
