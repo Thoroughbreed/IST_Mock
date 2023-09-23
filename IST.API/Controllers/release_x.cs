@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace IST.API.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("[controller]/[action]")]
 public class ReleaseX : ControllerBase
 {
     private IConfiguration _AppSettings;
