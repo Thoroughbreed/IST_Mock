@@ -17,7 +17,7 @@ public class ReleaseX : ControllerBase
     {
         _AppSettings = appSettings;
     }
-    [HttpPost(Name = "/fag")]
+    [HttpPost("/fag")]
     public async Task<IActionResult> GetFagFromSchool([FromServices] IFagService service, int limit, int offset, int instnr, string apiKey)
     {
         var byteArray = SHA1.HashData(Encoding.UTF8.GetBytes(apiKey));
