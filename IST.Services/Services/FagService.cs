@@ -33,7 +33,7 @@ public class FagService : IFagService
     private ICollection<Fag> GetRandomFag(int limit, int offset, int instId)
     {
         var fagList = _fags.AsQueryable()
-            .Where(f => f.gennemfoerende_skole == instId.ToString())
+            .Where(f => f.gennemfoerende_skole == instId)
             .Skip(offset)
             .Take(limit);
         return fagList.ToList();
